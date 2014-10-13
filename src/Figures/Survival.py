@@ -3,7 +3,7 @@ Created on Apr 7, 2013
 
 @author: agross
 """
-from Processing.Helpers import get_vec_type, to_quants
+from Helpers.Pandas import get_vec_type, to_quants
 from Stats.Survival import get_cox_ph
 
 import pandas as pd

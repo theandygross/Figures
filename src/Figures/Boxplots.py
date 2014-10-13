@@ -10,8 +10,8 @@ import pandas as pd
 import matplotlib.pylab as plt
 
 import Stats.Scipy as Stats
-from Figures.Helpers import latex_float, init_ax
-from Processing.Helpers import match_series
+from Figures.FigureHelpers import latex_float, init_ax
+from Helpers.Pandas import match_series
 colors = plt.rcParams['axes.color_cycle'] * 10
 
 

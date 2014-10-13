@@ -4,8 +4,8 @@ Created on Jun 12, 2013
 @author: agross
 '''
 import Stats.Scipy as Tests
-from Processing.Helpers import match_series, split_a_by_b
-from Figures.Helpers import init_ax, latex_float
+from Helpers.Pandas import match_series, split_a_by_b
+from Figures.FigureHelpers import init_ax, latex_float
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
