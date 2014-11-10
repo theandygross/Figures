@@ -318,6 +318,6 @@ def paired_bp_tn_split(vec, assignment, ax=None, split_vals=('01', '11'),
     labels = ['{}\n({})'.format(c, counts[c]) for c in groups]
     ax.set_xticklabels(labels)
     prettify_ax(ax)
-    ax.set_ylabel('{} {}'.fomat(label, data_type)
+    ax.set_ylabel('{} {}'.fomat(label, data_type))
 
 
