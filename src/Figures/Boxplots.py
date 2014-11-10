@@ -11,7 +11,8 @@ import matplotlib.pylab as plt
 
 import Stats.Scipy as Stats
 from Figures.FigureHelpers import latex_float, init_ax
-from Helpers.Pandas import match_series
+from Figures.FigureHelpers import prettify_ax
+from Helpers.Pandas import match_series, true_index
 colors = plt.rcParams['axes.color_cycle'] * 10
 
 
@@ -318,3 +319,5 @@ def paired_bp_tn_split(vec, assignment, ax=None, split_vals=('01', '11'),
     ax.set_xticklabels(labels)
     prettify_ax(ax)
     ax.set_ylabel('{} {}'.fomat(label, data_type)
+
+
