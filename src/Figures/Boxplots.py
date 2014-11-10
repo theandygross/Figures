@@ -267,3 +267,54 @@ def boxplot_panel(hit_vec, response_df):
     ax1.legend(bp['boxes'][:2] + [s2, s1],
                (v1, v2, '$p<10^{-2}$', '$p<10^{-5}$'),
                loc='best', scatterpoints=1)
+
+
+def paired_bp_tn_split(vec, assignment, ax=None, split_vals=('01', '11'),
+                       data_type='gene expression'):
+    """
+    Paired boxplot for a single Series, with splitting on the index,
+    grouped by assignment. I.E. Tumor-Normal gene expression split by
+    cancer.
+    
+    vec: 
+        vector of values to plot.
+    assignment: 
+        vector mapping keys to group assignment
+    ax (None):
+        matplotlib axis to plot on or None
+    split_vals ('01','11'):
+        Values to split the boxplot pairing on. The default of 
+        ('01','11') indicates tumor vs. normal in the standard 
+        TCGA barcode nomenclature.  This should coorespond to values
+        on the second level of the index for vec and assignment.
+        
+    **both vec and assignment should have an overlapping index with
+    multiple levels**
+    """
+    _, ax = init_ax(ax, figsize=(8, 3))
+    if vec.name != None:
+        label = vec.name  # lose label in manipulation
+    else:
+        label = ''
+    g1 = split_vals[0]
+    g2 = split_vals[1]
+    vec = pd.concat([vec[:, g1], vec[:, g2]], keys=[g1, g2],
+                    axis=1)
+    vec = vec.dropna().stack()
+
+    counts = vec.unstack().groupby(assignment).size()
+    groups = list(true_index(counts > 5))
+    groups = vec.unstack().groupby(assignment).median()[g1].ix[groups]
+    groups = groups.order().index[::-1]
+
+    l1 = [np.array(vec[:, g1].ix[true_index(assignment == c)].dropna())
+          for c in groups]
+    l2 = [np.array(vec[:, g2].ix[true_index(assignment == c)].dropna())
+          for c in groups]
+    boxes = [x for t in zip(l1, l2) for x in t if len(t[1]) > 5]
+
+    ax, bp = paired_boxplot(boxes, ax)
+    labels = ['{}\n({})'.format(c, counts[c]) for c in groups]
+    ax.set_xticklabels(labels)
+    prettify_ax(ax)
+    ax.set_ylabel('{} {}'.fomat(label, data_type)
