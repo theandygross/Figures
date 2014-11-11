@@ -49,17 +49,20 @@ def _violin_plot(ax, data, pos=[], bp=False):
         return box_plot
 
 
-def box_plot_pandas(bin_vec, real_vec, ax=None):
+def box_plot_pandas(bin_vec, real_vec, ax=None, order=None):
     """
     Wrapper around matplotlib's boxplot function.
-    
+
     Inputs
         bin_vec: Series of labels
         real_vec: Series of measurements to be grouped according to bin_vec
     """
     _, ax = init_ax(ax)
     bin_vec, real_vec = match_series(bin_vec, real_vec)
-    categories = bin_vec.value_counts().index
+    if order is not None:
+        categories = order
+    else:
+        categories = bin_vec.value_counts().index
     data = [real_vec[bin_vec == num] for num in categories]
     bp = ax.boxplot(data, positions=range(len(categories)), widths=.3,
                     patch_artist=True)
@@ -67,6 +70,7 @@ def box_plot_pandas(bin_vec, real_vec, ax=None):
         ax.set_ylabel(real_vec.name)
     if bin_vec.name:
         ax.set_xlabel(bin_vec.name)
+    ax.set_xticklabels(categories)
     [p.set_visible(False) for p in bp['fliers']]
     [p.set_visible(False) for p in bp['caps']]
     [p.set_visible(False) for p in bp['whiskers']]
