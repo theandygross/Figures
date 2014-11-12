@@ -73,7 +73,7 @@ def plot_regression_plain(x, y, ax=None):
     prettify_ax(ax)
 
 
-def plot_regression_density(x, y, rad=3, ax=None):
+def plot_regression_density(x, y, rad=3, ax=None, **plt_args):
     """
     Color density modified from Gordon Bean's Matlab code.
     https://github.com/brazilbean/bean-matlab-toolkit/blob/master/denscat.m
@@ -88,7 +88,7 @@ def plot_regression_density(x, y, rad=3, ax=None):
     dens = 1. * (d < rad).sum() / area
     idx = dens.order().index
     series_scatter(x.ix[idx], y.ix[idx], c=list(dens.ix[idx]), alpha=1, lw=0,
-                   ann=None, ax=ax, cmap=cm.jet)
+                   ann=None, ax=ax, cmap=cm.jet, **plt_args)
 
     reg = linear_regression(x, y)
     ax.annotate(regression_string(reg), (.7,.05),
