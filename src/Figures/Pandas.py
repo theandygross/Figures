@@ -122,3 +122,34 @@ def venn_pandas(a, b, colors=None, alpha=.7):
     for l in v.subset_labels:
         l.set_fontsize(12)
     return v
+
+
+def smooth_dist(vec, bins=300):
+    """
+    Calculate smoothed distribution given a real valued Series of data.
+    Data should be relatively large as to not suffer from sampling effects
+    I'm using this for methylation data with 450,000 measurments.  For
+    smaller arrays, condider doing a KDE based visualization.
+
+    What I do here is calculate a count across a discrete number of bins
+    and then smooth the distribution with a rolling mean.
+    """
+    h = np.histogram(vec.dropna(), bins=bins, normed=True)
+    s = pd.rolling_mean(pd.Series(h[0], index=h[1][1:]), 20, center=True)
+    return s
+
+
+def draw_dist(vec, split=None, ax=None, legend=True, colors=None):
+    """
+    Draw a smooth distribution from data with an optional splitting factor.
+    """
+    _, ax = init_ax(ax)
+    if split is None:
+        split = pd.Series('', index=vec.index)
+    for l,v in vec.groupby(split):
+        if colors is None:
+            smooth_dist(v).plot(label=l, lw=2, ax=ax)
+        else:
+            smooth_dist(v).plot(label=l, lw=2, ax=ax, color=colors[l])
+    if legend and len(split.unique()) > 1:
+        ax.legend(loc='upper left', frameon=False)
