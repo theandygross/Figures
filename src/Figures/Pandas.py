@@ -145,8 +145,10 @@ def draw_dist(vec, split=None, ax=None, legend=True, colors=None):
     """
     _, ax = init_ax(ax)
     if split is None:
-        split = pd.Series('', index=vec.index)
+        split = pd.Series('s', index=vec.index)
+        colors = {'s': colors} if colors is not None else None
     for l,v in vec.groupby(split):
+        print l
         if colors is None:
             smooth_dist(v).plot(label=l, lw=2, ax=ax)
         else:
