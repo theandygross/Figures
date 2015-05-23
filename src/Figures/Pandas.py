@@ -5,7 +5,7 @@ Created on Jun 12, 2013
 '''
 import Stats.Scipy as Tests
 from Helpers.Pandas import match_series, split_a_by_b
-from Figures.FigureHelpers import init_ax, latex_float
+from Figures.FigureHelpers import init_ax, latex_float, prettify_ax
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -148,10 +148,26 @@ def draw_dist(vec, split=None, ax=None, legend=True, colors=None):
         split = pd.Series('s', index=vec.index)
         colors = {'s': colors} if colors is not None else None
     for l,v in vec.groupby(split):
-        print l
         if colors is None:
             smooth_dist(v).plot(label=l, lw=2, ax=ax)
         else:
             smooth_dist(v).plot(label=l, lw=2, ax=ax, color=colors[l])
     if legend and len(split.unique()) > 1:
         ax.legend(loc='upper left', frameon=False)
+
+
+def qq_plot(p_vec, ax=None, color=None):
+    fig, ax = init_ax(ax)
+    if color is None:
+        color=colors[0]
+    v = p_vec.rank('first', ascending=False, pct=True)
+    v = v.order()
+    v.name = 'theoretical'
+    v = v - (1. / len(v))
+    v2 = v[:-10000:100].append(v.iloc[-10000:])
+    v2 = v2[:-100:10].append(v2.iloc[-100:])
+    v2 = -1*np.log10(1 - v2)
+    series_scatter(v2, -1*np.log10(p_vec), s=5, ann=None, ax=ax,
+                   color=color, alpha=1)
+    ax.set_ylabel('Observed')
+    prettify_ax(ax)
