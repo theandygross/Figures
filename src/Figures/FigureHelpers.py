@@ -24,12 +24,17 @@ def init_ax(ax, figsize=None):
     return fig, ax
 
 
-def prettify_ax(ax):
+def prettify_ax(ax, top=False):
     ax.grid(b=False)
     ax.yaxis.set_ticks_position('left')
-    ax.xaxis.set_ticks_position('bottom')
-    ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
+
+    if top:
+        ax.spines['bottom'].set_visible(False)
+        ax.xaxis.set_ticks_position('top')
+    else:
+        ax.spines['top'].set_visible(False)
+        ax.xaxis.set_ticks_position('bottom')
 
 
 def latex_float(f):
