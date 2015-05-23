@@ -157,6 +157,13 @@ def draw_dist(vec, split=None, ax=None, legend=True, colors=None):
 
 
 def qq_plot(p_vec, ax=None, color=None):
+    """
+    qq plot function that takes a vector of p-values and compares against
+    the expected distribution.
+
+    This is a bit hacked for methylation data as I'm doing some sampling
+    in the middle of the distribution to not have to plot everything.
+    """
     fig, ax = init_ax(ax)
     if color is None:
         color=colors[0]
