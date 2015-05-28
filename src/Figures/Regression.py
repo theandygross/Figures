@@ -40,7 +40,7 @@ def regression_string(reg):
     r_value = 'r={}'.format(r_value)
 
     #slope = remove_leading_zero(reg['slope'])
-    slope = str(np.round(reg['slope']))
+    slope = str(np.round(reg['slope'], 2))
     #intercept = remove_leading_zero(reg['intercept'])
     if np.abs(reg['intercept']) < .01:
         intercept = ''
@@ -134,8 +134,8 @@ def plot_regression_density(x, y, rad=3, ax=None, line_args=None,
             end=x.max(), ax=ax, **l2)
 
     xy = x.append(y)
-    ax.set_xbound(xy.min() - 3, xy.max() + 3)
-    ax.set_ybound(xy.min() - 3, xy.max() + 3)
+    ax.set_xbound(xy.min() - rad, xy.max() + rad)
+    ax.set_ybound(xy.min() - rad, xy.max() + rad)
     prettify_ax(ax)
 
 
