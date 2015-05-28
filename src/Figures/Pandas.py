@@ -1,8 +1,8 @@
-'''
+"""
 Created on Jun 12, 2013
 
 @author: agross
-'''
+"""
 import Stats.Scipy as Tests
 from Helpers.Pandas import match_series, split_a_by_b
 from Figures.FigureHelpers import init_ax, latex_float, prettify_ax
@@ -13,7 +13,13 @@ import scipy as sp
 
 colors = plt.rcParams['axes.color_cycle']
 
+
 def series_scatter(s1, s2, ax=None, ann='p', filename=None, **plot_args):
+    """
+    Scatter plot of two pandas Series objects. Takes matplotlib
+    scatter plot, adds axis labels and annotates plot with Spearman
+    p-value.
+    """
     fig, ax = init_ax(ax, figsize=(6, 4))
     if 's' not in plot_args:
         plot_args['s'] = 75
@@ -30,7 +36,8 @@ def series_scatter(s1, s2, ax=None, ann='p', filename=None, **plot_args):
                     xycoords='axes fraction', ha='right', va='bottom', size=14)
     if filename is not None:
         fig.savefig(filename)
-    
+
+
 def fischer_bar_chart(bin_vec, response_vec, ax=None, filename=None):
     fig, ax = init_ax(ax)
     t = pd.crosstab(bin_vec, response_vec)
@@ -38,12 +45,13 @@ def fischer_bar_chart(bin_vec, response_vec, ax=None, filename=None):
     if filename is not None:
         fig.savefig(filename)
     return fig     
-    
+
+
 def histo_compare(hit_vec, response_vec, ax=None):
-    '''
+    """
     Split response_vec by hit_vec and compared histograms.  
     Also plots the kde of the whole response_vec.
-    '''
+    """
     fig, ax = init_ax(ax)
     kde1 = sp.stats.gaussian_kde(response_vec)
     x_eval = np.linspace(min(response_vec), max(response_vec), num=200)
@@ -53,6 +61,7 @@ def histo_compare(hit_vec, response_vec, ax=None):
     ax.hist(hit, bins=10, normed=True, alpha=.5, label='Mut');
     ax.legend()
     return fig
+
 
 def fancy_raster(df, cluster=False, cmap=plt.cm.get_cmap('Spectral'),
                  norm=None, ax=None):
@@ -87,11 +96,13 @@ def fancy_raster(df, cluster=False, cmap=plt.cm.get_cmap('Spectral'),
         ax.set_frame_on(False)
     return img
 
+
 def count_plot(vec, name=None, ax=None):
     _, ax = init_ax(ax)
     vec.value_counts().sort_index().plot(kind='bar', ax=ax)
     ax.set_ylabel('# of Patients')
     ax.set_xlabel(name if name is not None else vec.name)
+
 
 def venn_pandas_o(a, b):
     from matplotlib_venn import venn2
@@ -105,7 +116,8 @@ def venn_pandas_o(a, b):
     v.patches[0].set_alpha(.7)
     v.patches[1].set_alpha(.7)
     v.patches[2].set_alpha(.7)
-    
+
+
 def venn_pandas(a, b, colors=None, alpha=.7):
     from matplotlib_venn import venn2
     
