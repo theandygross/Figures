@@ -115,7 +115,8 @@ def draw_survival_curves(feature, surv, assignment=None, legend='out'):
                             title='{} = {}'.format(assignment.name, l))
         if legend is 'out':
             axs[i].get_legend().set_visible(False)
-        
+
+
 def survival_stat_plot(t, upper_lim=5, axs=None, colors=None):
     """
     t is the DataFrame returned from a get_surv_fit call.
@@ -152,6 +153,7 @@ def survival_stat_plot(t, upper_lim=5, axs=None, colors=None):
                       xerr=[tt.Surv - tt.Lower, tt.Upper - tt.Surv],
                       width=.75,
                       ecolor='black')
+    ax2.set_ybound(-.5,len(t)-.5)
     ax2.set_xlabel('5Y Survival')
     ax2.set_xticks([0, .5, 1.])
     ax2.set_yticks([])
