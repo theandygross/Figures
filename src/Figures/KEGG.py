@@ -1,7 +1,7 @@
 __author__ = 'agross'
 
 import re
-import itertools
+import itertools as itertools
 import urllib
 
 import pandas as pd

@@ -8,9 +8,10 @@ from Stats.Survival import get_cox_ph
 
 import pandas as pd
 import matplotlib.pylab as plt
-import pandas.rpy.common as com
-import rpy2.robjects as robjects 
+import rpy2.robjects as robjects
 from Stats.Survival import get_surv_fit
+from rpy2.robjects import pandas2ri
+pandas2ri.activate()
 
 import numpy as np
 
@@ -44,7 +45,7 @@ def draw_survival_curves_mpl(fit, ax=None, title=None, colors=None, ms=80, alpha
     tab = pd.DataFrame({v: s.rx2(v) for v in s.names 
                                     if len(s.rx2(v)) == len(s.rx2('time'))},
                        index=s.rx2('time'))
-    call = com.convert_robj(fit.rx2('call')[2])
+    call = pandas2ri.py2ri(fit.rx2('call')[2])
     
     groups = robjects.r.sort(robjects.r.c(*call.feature.unique()))
     

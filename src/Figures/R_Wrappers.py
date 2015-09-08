@@ -1,15 +1,15 @@
-'''
+"""
 Created on Jun 30, 2013
 
 @author: agross
-'''
-import numpy as np
+"""
+
 import rpy2.robjects as robjects
 from rpy2.robjects import r
-from Helpers.Pandas import get_vec_type , to_quants
+from Helpers.Pandas import get_vec_type, to_quants
 from Stats.Survival import get_cox_ph, log_rank, survival
-#from Reports.NotebookTools import Show
-    
+
+
 def draw_survival_curves(feature, surv, assignment=None, filename='tmp.png', show=False,
                         title=True, labels=None, colors=['blue', 'red'], ann=None,
                         show_legend=True, q=.25, std=None):
