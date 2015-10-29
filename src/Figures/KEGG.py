@@ -52,7 +52,7 @@ def pull_pathway_info_from_kegg(kegg_id):
                 mapping.append(pd.Series({'id': gene_id, 'gene': gene_name,
                                           'ec': i, 'ko': j}))
         except:
-            print g
+            print(g)
     mapping = pd.DataFrame(mapping)
     return mapping
 
@@ -74,7 +74,7 @@ def plot_data_on_pathway(kegg_id, mapping, dist):
     s = '%0D%'.join(['hsa:{}+%23{}'.format(symbol_to_kegg.ix[i], cmap.ix[i])
                      for i in gm.index if i in symbol_to_kegg])
     s = '{}show_pathway?map={}&multi_query={}'.format(KEGG_PATH, kegg_id, s)
-    print s
+    print(s)
 
 
 def parse_entry(e):
